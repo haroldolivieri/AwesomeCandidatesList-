@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+HashMap<String, String> baseDependencies = rootProject.ext.dependencies
+HashMap<String, String> testDependencies = rootProject.ext.testDependencies
+HashMap<String, String> application = rootProject.ext.application
+HashMap<String, String> versions = rootProject.ext.versions
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        applicationId "haroldolivieri.candidateslist"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode application.versionCode
+        versionName application.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin'
+        }
+        test {
+            resources.srcDirs += ['src/test/resources']
+            java.srcDirs += 'src/test/kotlin'
+        }
+        androidTest {
+            resources.srcDirs += ['src/androidTest/resources']
+            java.srcDirs += 'src/androidTest/kotlin'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation baseDependencies.kotlin_std_lib
+
+    implementation baseDependencies.dagger2
+    implementation baseDependencies.dagger2_android_support
+    kapt baseDependencies.dagger2_compiler
+    kapt baseDependencies.dagger2_android_processor
+
+    implementation baseDependencies.rx_java
+    implementation baseDependencies.rx_android
+
+    implementation baseDependencies.app_compat
+    implementation baseDependencies.card_view
+    implementation baseDependencies.constraint_layout
+    implementation baseDependencies.support_design
+    implementation baseDependencies.support_annotations
+
+    implementation baseDependencies.calligraphy
+    implementation baseDependencies.glide
+
+    implementation baseDependencies.room_runtime
+    implementation baseDependencies.room_rx
+    kapt baseDependencies.room_compiler
+
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockito
+    testImplementation testDependencies.hamcrest
+
+    androidTestImplementation testDependencies.junit
+    androidTestImplementation testDependencies.android_test_runner
+    androidTestImplementation testDependencies.android_test_rules
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CandidatesList</string>
+    <string name="loading">Loading cadidates...</string>
+</resources>
