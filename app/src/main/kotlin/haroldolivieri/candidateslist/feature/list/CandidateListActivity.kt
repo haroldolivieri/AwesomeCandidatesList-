@@ -43,7 +43,6 @@ class CandidateListActivity : DaggerAppCompatActivity(), CandidateListContract.V
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter.fetchData()
         setupRecyclerView()
 
         fab.setOnClickListener {

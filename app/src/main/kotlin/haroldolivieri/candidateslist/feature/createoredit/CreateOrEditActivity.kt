@@ -26,9 +26,8 @@ class CreateOrEditActivity : DaggerAppCompatActivity(), CreateOrEditContract.Vie
         private val TAG = CandidateListActivity::class.java.simpleName
     }
 
-    private val candidate by lazy {
-        intent.getSerializableExtra(CANDIDATE) as Candidate?
-    }
+    private val candidate by lazy { intent.getSerializableExtra(CANDIDATE) as Candidate? }
+    private val grades by lazy { resources.getStringArray(R.array.grades) }
 
     @Inject
     lateinit var presenter: CreateOrEditContract.Presenter
@@ -37,20 +36,24 @@ class CreateOrEditActivity : DaggerAppCompatActivity(), CreateOrEditContract.Vie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_or_edit_candidate)
 
-        checkIfEditableMode()
+        populateIfInEditableMode()
 
         btnSave.setOnClickListener {
-            val array = resources.getStringArray(R.array.grades)
-
             presenter.save(email = edtEmail.text.toString(),
                     phone = edtPhone.text.toString(),
                     name = edtName.text.toString(),
-                    grade = array[spnGrades.selectedItemPosition])
+                    grade = grades[spnGrades.selectedItemPosition])
         }
     }
 
-    private fun checkIfEditableMode() {
-        candidate.let { }
+    private fun populateIfInEditableMode() {
+        candidate.let {
+            edtName.setText(it?.name)
+            edtPhone.setText(it?.phoneNumber)
+            edtEmail.setText(it?.email)
+            val position = grades.indexOf(it?.assessmentGrade?.name)
+            spnGrades.setSelection(position)
+        }
     }
 
     override fun showError(message: String) {
