@@ -1,11 +1,11 @@
-package haroldolivieri.candidateslist.feature
+package haroldolivieri.candidateslist.feature.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import haroldolivieri.candidateslist.Candidate
+import haroldolivieri.candidateslist.domain.Candidate
 import haroldolivieri.candidateslist.R
 
 class CandidateAdapter(var adapterList: List<Candidate>? = null,
@@ -19,7 +19,7 @@ class CandidateAdapter(var adapterList: List<Candidate>? = null,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CandidateViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_candidate, parent, false)
-        return CandidateViewHolder(view)
+        return CandidateViewHolder(view, onClick)
     }
 
     override fun getItemCount(): Int = adapterList?.size ?: 0
@@ -31,7 +31,7 @@ class CandidateAdapter(var adapterList: List<Candidate>? = null,
 
 }
 
-class CandidateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CandidateViewHolder(itemView: View, val onClick: (Candidate) -> Unit) : RecyclerView.ViewHolder(itemView) {
     private val candidateName by lazy { itemView.findViewById<TextView>(R.id.name) }
     private val candidateEmail by lazy { itemView.findViewById<TextView>(R.id.email) }
     private val candidatePhone by lazy { itemView.findViewById<TextView>(R.id.phone) }
@@ -39,10 +39,11 @@ class CandidateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(candidate: Candidate) {
         candidate.apply {
-            candidateName.text = name
-            candidateEmail.text = email
-            candidatePhone.text = phoneNumber
+            candidateName.text = if (!name.isEmpty()) name else "Not informed"
+            candidateEmail.text = if (!email.isEmpty()) email else "Not informed"
+            candidatePhone.text = if (!phoneNumber.isEmpty()) phoneNumber else "Not informed"
             candidateGrade.text = assessmentGrade.name
+            itemView.setOnClickListener { onClick.invoke(this) }
         }
     }
 }

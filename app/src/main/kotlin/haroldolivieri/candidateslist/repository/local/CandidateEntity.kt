@@ -2,8 +2,8 @@ package haroldolivieri.candidateslist.repository.local
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import haroldolivieri.candidateslist.AssessmentGrade
-import haroldolivieri.candidateslist.Candidate
+import haroldolivieri.candidateslist.domain.AssessmentGrade
+import haroldolivieri.candidateslist.domain.Candidate
 import haroldolivieri.candidateslist.repository.local.CandidateDAO.Companion.CANDIDATE_TABLE_NAME
 
 @Entity(tableName = CANDIDATE_TABLE_NAME)

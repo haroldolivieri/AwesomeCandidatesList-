@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">CandidatesList</string>
-    <string name="loading">Loading cadidates...</string>
+    <string name="empty">No candidates. Feel free to create a new one.</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone Number</string>
+    <string name="add_candidate">Add Candidate</string>
+    <string name="unexpectedError">Unexpected error</string>
+
+    <string-array name="grades">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+    </string-array>
+
 </resources>

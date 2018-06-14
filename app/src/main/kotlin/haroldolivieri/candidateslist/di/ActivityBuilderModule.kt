@@ -2,8 +2,10 @@ package haroldolivieri.candidateslist.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import haroldolivieri.candidateslist.feature.CandidateListModule
-import haroldolivieri.candidateslist.feature.MainActivity
+import haroldolivieri.candidateslist.feature.list.CandidateListModule
+import haroldolivieri.candidateslist.feature.createoredit.CreateOrEditActivity
+import haroldolivieri.candidateslist.feature.createoredit.CreateOrEditModule
+import haroldolivieri.candidateslist.feature.list.CandidateListActivity
 import haroldolivieri.candidateslist.repository.local.LocalModule
 
 /**
@@ -14,5 +16,8 @@ import haroldolivieri.candidateslist.repository.local.LocalModule
 @Module
 abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [LocalModule::class, CandidateListModule::class])
-    internal abstract fun bindMainActivity(): MainActivity
+    internal abstract fun bindListActivity(): CandidateListActivity
+
+    @ContributesAndroidInjector(modules = [LocalModule::class, CreateOrEditModule::class])
+    internal abstract fun bindCreateOrEditActivity(): CreateOrEditActivity
 }

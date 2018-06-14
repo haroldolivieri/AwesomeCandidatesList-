@@ -1,6 +1,6 @@
-package haroldolivieri.candidateslist.feature
+package haroldolivieri.candidateslist.feature.list
 
-import haroldolivieri.candidateslist.Candidate
+import haroldolivieri.candidateslist.domain.Candidate
 
 
 object CandidateListContract {
@@ -10,6 +10,7 @@ object CandidateListContract {
     }
 
     interface Presenter {
-        fun onCreate()
+        fun fetchData()
+        fun deleteCandidate(candidate: Candidate)
     }
 }

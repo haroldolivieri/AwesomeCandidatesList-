@@ -1,7 +1,8 @@
-package haroldolivieri.candidateslist
+package haroldolivieri.candidateslist.domain
 
+import java.io.Serializable
 
-interface Candidate {
+interface Candidate : Serializable {
     val name : String
     val email : String
     val phoneNumber : String

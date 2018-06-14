@@ -3,7 +3,7 @@ package haroldolivieri.candidateslist
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import haroldolivieri.candidateslist.repository.local.CandidateDAO
+import haroldolivieri.candidateslist.domain.Candidate
 import haroldolivieri.candidateslist.repository.local.CandidateDatabase
 import haroldolivieri.candidateslist.repository.local.CandidateEntity
 import haroldolivieri.candidateslist.repository.local.toEntity
@@ -37,7 +37,7 @@ class RoomDatabaseTest {
                 phoneNumber = "+48 504 203 260", assessment = "A")
 
         val testObserverInsert = candidateDatabase.candidateDAO()
-                .insertCompletable(candidate.toEntity()).test()
+                .upsertCompletable(candidate.toEntity()).test()
 
         testObserverInsert.assertComplete()
         testObserverInsert.assertNoErrors()
@@ -52,7 +52,7 @@ class RoomDatabaseTest {
     }
 
     @Test
-    fun writeCandidateWithSameEmail() {
+    fun writeCandidateWithSameEmailShouldReplace() {
         val candidate1 : Candidate = CandidateEntity(name = "Haroldo",
                 email = "olivierisoares@gmail.com",
                 phoneNumber = "+48 504 203 260", assessment = "A")
@@ -62,15 +62,23 @@ class RoomDatabaseTest {
                 phoneNumber = "+48 504 203 260", assessment = "A")
 
         val testObserverInsert1 = candidateDatabase.candidateDAO()
-                .insertCompletable(candidate1.toEntity()).test()
+                .upsertCompletable(candidate1.toEntity()).test()
 
         testObserverInsert1.assertComplete()
         testObserverInsert1.assertNoErrors()
 
         val testObserverInsert2 = candidateDatabase.candidateDAO()
-                .insertCompletable(candidate2.toEntity()).test()
+                .upsertCompletable(candidate2.toEntity()).test()
 
-        testObserverInsert2.assertNotComplete()
+        testObserverInsert2.assertComplete()
+        testObserverInsert2.assertNoErrors()
 
+        val testObserverQuery = candidateDatabase.candidateDAO()
+                .fetchCandidates().test()
+
+        testObserverQuery.assertComplete()
+        testObserverQuery.assertNoErrors()
+
+        Assert.assertTrue(testObserverQuery.values()[0].size == 1)
     }
 }
