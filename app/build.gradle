@@ -9,7 +9,7 @@ HashMap<String, String> application = rootProject.ext.application
 HashMap<String, String> versions = rootProject.ext.versions
 
 android {
-    compileSdkVersion versions.compileSdk
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "haroldolivieri.candidateslist"
@@ -43,35 +43,27 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation baseDependencies.kotlin_std_lib
-
     implementation baseDependencies.dagger2
     implementation baseDependencies.dagger2_android_support
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     kapt baseDependencies.dagger2_compiler
     kapt baseDependencies.dagger2_android_processor
-
     implementation baseDependencies.rx_java
     implementation baseDependencies.rx_android
-
     implementation baseDependencies.app_compat
     implementation baseDependencies.card_view
     implementation baseDependencies.constraint_layout
     implementation baseDependencies.support_design
     implementation baseDependencies.support_annotations
-
     implementation baseDependencies.calligraphy
     implementation baseDependencies.glide
-
     implementation baseDependencies.room_runtime
     implementation baseDependencies.room_rx
     kapt baseDependencies.room_compiler
-
     testImplementation testDependencies.junit
     testImplementation testDependencies.mockito
     testImplementation testDependencies.hamcrest
-
     androidTestImplementation testDependencies.junit
     androidTestImplementation testDependencies.android_test_runner
     androidTestImplementation testDependencies.android_test_rules

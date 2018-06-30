@@ -1,7 +1,6 @@
 package haroldolivieri.candidateslist.feature.list
 
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import dagger.android.support.DaggerAppCompatActivity
@@ -14,7 +13,6 @@ import haroldolivieri.candidateslist.view.ViewUtils
 import kotlinx.android.synthetic.main.activity_create_or_edit_candidate.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
-import haroldolivieri.candidateslist.R.id.recyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import haroldolivieri.candidateslist.view.SwipeCallback
 
@@ -31,6 +29,8 @@ class CandidateListActivity : DaggerAppCompatActivity(), CandidateListContract.V
     private val adapter by lazy {
         CandidateAdapter(onClick = {
             startActivity(editIntent(it))
+        }, onDeleted = {
+            presenter.deleteCandidate(it)
         })
     }
 
@@ -65,6 +65,6 @@ class CandidateListActivity : DaggerAppCompatActivity(), CandidateListContract.V
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapter
         recyclerView.setEmptyView(emptyView)
-        ItemTouchHelper(SwipeCallback()).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(SwipeCallback(adapter)).attachToRecyclerView(recyclerView)
     }
 }

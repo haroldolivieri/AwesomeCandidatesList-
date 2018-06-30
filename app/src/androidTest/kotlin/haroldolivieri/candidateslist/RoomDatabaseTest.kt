@@ -31,7 +31,7 @@ class RoomDatabaseTest {
     }
 
     @Test
-    fun writeCandidateAndReadInList() {
+    fun write_candidate_and_read_in_list() {
         val candidate : Candidate = CandidateEntity(name = "Haroldo",
                 email = "olivierisoares@gmail.com",
                 phoneNumber = "+48 504 203 260", assessment = "A")
@@ -52,7 +52,7 @@ class RoomDatabaseTest {
     }
 
     @Test
-    fun writeCandidateWithSameEmailShouldReplace() {
+    fun write_candidate_with_same_email_should_replace() {
         val candidate1 : Candidate = CandidateEntity(name = "Haroldo",
                 email = "olivierisoares@gmail.com",
                 phoneNumber = "+48 504 203 260", assessment = "A")

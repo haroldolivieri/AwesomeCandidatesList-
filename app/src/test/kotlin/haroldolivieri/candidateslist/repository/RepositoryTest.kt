@@ -30,7 +30,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun readDataFromDAO() {
+    fun read_data_from_DAO() {
         `when`(candidateDAO.fetchCandidates()).thenReturn(Single.just(candidates))
         val testObserver = repository.fetchCandidates().test()
 
@@ -40,7 +40,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun updateDataFromDAO() {
+    fun update_data_from_DAO() {
         val candidate = candidates[0]
 
         `when`(candidateDAO.upsertCompletable(candidate)).thenReturn(Completable.complete())

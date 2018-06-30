@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import haroldolivieri.candidateslist.domain.Candidate
 import haroldolivieri.candidateslist.R
+import haroldolivieri.candidateslist.view.ItemTouchHelperAdapter
 
-class CandidateAdapter(var adapterList: List<Candidate>? = null,
-                       val onClick : (Candidate) -> Unit) : RecyclerView.Adapter<CandidateViewHolder>() {
+class CandidateAdapter(private var adapterList: MutableList<Candidate>? = null,
+                       val onClick : (Candidate) -> Unit,
+                       val onDeleted: (Candidate) -> Unit) :
+        RecyclerView.Adapter<CandidateViewHolder>(), ItemTouchHelperAdapter {
 
     fun updateList(list : List<Candidate>) {
-        this.adapterList = list
+        this.adapterList = list.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -24,14 +27,25 @@ class CandidateAdapter(var adapterList: List<Candidate>? = null,
 
     override fun getItemCount(): Int = adapterList?.size ?: 0
 
-
     override fun onBindViewHolder(holder: CandidateViewHolder, position: Int) {
         adapterList?.get(position)?.let { holder.bind(it) }
     }
 
+    override fun onItemDismiss(position: Int) {
+        adapterList?.get(position)?.let { onDeleted.invoke(it) }
+        adapterList?.removeAt(position)
+        if (adapterList?.size == 0) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemRemoved(position)
+        }
+    }
 }
 
-class CandidateViewHolder(itemView: View, val onClick: (Candidate) -> Unit) : RecyclerView.ViewHolder(itemView) {
+class CandidateViewHolder(itemView: View,
+                          val onClick: (Candidate) -> Unit)
+    : RecyclerView.ViewHolder(itemView) {
+
     private val candidateName by lazy { itemView.findViewById<TextView>(R.id.name) }
     private val candidateEmail by lazy { itemView.findViewById<TextView>(R.id.email) }
     private val candidatePhone by lazy { itemView.findViewById<TextView>(R.id.phone) }
